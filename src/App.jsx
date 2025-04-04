@@ -4,12 +4,22 @@ export default function HomePage() {
   return (
     <div className="bg-gray-50 text-gray-900">
       {/* Hero Section */}
-      <section className="min-h-screen flex flex-col items-center justify-center text-center px-4">
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        {/* Animated background blob */}
+        <motion.div
+          className="absolute w-[60vw] h-[60vw] bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-20 blur-3xl"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          style={{ zIndex: 0 }}
+        />
+
+        {/* Hero Content */}
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-6xl md:text-8xl font-semibold mb-4"
+          className="text-6xl md:text-8xl font-semibold mb-4 relative z-10"
         >
           Eli Van Tassell
         </motion.h1>
@@ -17,7 +27,7 @@ export default function HomePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="text-xl md:text-2xl max-w-2xl"
+          className="text-xl md:text-2xl max-w-2xl relative z-10"
         >
           Electrical Engineer • Developer • Innovator
         </motion.p>
