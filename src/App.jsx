@@ -1,13 +1,41 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
+  const words = ["Electrical Engineer", "Developer", "Innovator"];
+  const [index, setIndex] = useState(0);
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentWord = words[index % words.length];
+
+    const timeout = setTimeout(() => {
+      setText((prev) => {
+        const updated = isDeleting
+          ? currentWord.substring(0, prev.length - 1)
+          : currentWord.substring(0, prev.length + 1);
+        return updated;
+      });
+
+      if (!isDeleting && text === currentWord) {
+        setTimeout(() => setIsDeleting(true), 1000);
+      } else if (isDeleting && text === "") {
+        setIsDeleting(false);
+        setIndex((prev) => prev + 1);
+      }
+    }, isDeleting ? 50 : 100);
+
+    return () => clearTimeout(timeout);
+  }, [text, isDeleting, index, words]);
+
   return (
     <div className="bg-gray-50 text-gray-900">
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         {/* Animated background blob */}
         <motion.div
-          className="absolute w-[60vw] h-[60vw] bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-20 blur-3xl"
+          className="absolute w-[60vw] h-[60vw] bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-10 blur-3xl"
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5 }}
@@ -27,9 +55,9 @@ export default function HomePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, delay: 0.5 }}
-          className="text-xl md:text-2xl max-w-2xl relative z-10"
+          className="text-xl md:text-2xl max-w-2xl relative z-10 h-10"
         >
-          Electrical Engineer • Developer • Innovator
+          <span className="border-r-2 border-black pr-1 animate-pulse">{text}</span>
         </motion.p>
       </section>
 
@@ -50,7 +78,7 @@ export default function HomePage() {
             transition={{ duration: 1, delay: 0.3 }}
             className="text-lg leading-relaxed"
           >
-            I'm an Electrical Engineer graduating in Fall 2024, passionate about embedded systems, power electronics, and innovative technology. My experience includes projects with Tesla, Anduril, and Ulteig, where I've combined creativity and engineering excellence.
+            I'm an electrical engineer passionate about embedded systems, signal processing, and clean design. I enjoy working at the intersection of hardware and software, where I can blend creative problem-solving with deep technical insight. 
           </motion.p>
         </div>
       </section>
@@ -105,14 +133,14 @@ export default function HomePage() {
           <p className="mb-8">Interested in collaborating or learning more about my work?</p>
           <div className="flex justify-center gap-4">
             <motion.a
-              href="mailto:eli@example.com"
+              href="mailto:vantassellco@gmail.com"
               whileHover={{ scale: 1.05 }}
               className="px-8 py-3 bg-white text-black rounded-full font-medium"
             >
               Get in Touch
             </motion.a>
             <motion.a
-              href="https://www.linkedin.com/in/eli-van-tassell"
+              href="https://www.linkedin.com/in/eli-van-tassell-5b627b252/"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
